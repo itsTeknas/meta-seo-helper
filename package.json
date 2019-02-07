@@ -1,11 +1,12 @@
 {
   "name": "meta-seo-helper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Meta Seo Helper",
   "main": "index.js",
   "scripts": {
-    "test": "eslint .",
-    "test-fix": "eslint --fix ."
+    "lint": "tslint src/*",
+    "lint-fix": "tslint --fix src/*",
+    "build": "tsc"
   },
   "keywords": [
     "meta",
@@ -16,14 +17,11 @@
     "hosting",
     "helper"
   ],
-  "author": "Sanket",
+  "author": "Sanket Berde",
   "license": "Apache-2.0",
   "devDependencies": {
-    "eslint": "^5.13.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "@types/node": "^10.12.21",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.1"
   }
 }
