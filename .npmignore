@@ -2,3 +2,5 @@ package-lock.json
 node_modules/
 schemaTest/
 src/
+tsconfig.json
+tslint.json
