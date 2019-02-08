@@ -18,7 +18,7 @@ Just render the meta tags on the serverside, leave the rest to the browser.
 
 ## Basic Usage
 
-```
+```javascript
 const Template = require('meta-seo-helper').Template;
 
 console.log(
@@ -50,7 +50,7 @@ console.log(
 
 This will add the following tags to your html: 
 
-```
+```html
 <meta name="name1" content="value1">
 <meta name="name2" content="value2">
 <meta property="name3" content="value3">
