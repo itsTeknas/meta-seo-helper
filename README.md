@@ -1,4 +1,4 @@
-# Firebase Hosting META SEO hemper
+# Firebase Hosting META SEO helper
 Very Lightweight, Meta Tags helper for SEO of SPA's. 
 Adds meta tags for social media previews to the html page.
 To be used in conjunction with Firebase hosting and Firebase functions, example below.
