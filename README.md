@@ -1,7 +1,7 @@
-# meta-seo-helper
+# Firebase Hosting META SEO hemper
 Very Lightweight, Meta Tags helper for SEO of SPA's. 
 Adds meta tags for social media previews to the html page.
-To be used in conjunction with Firebase hosting and Firebase functions.
+To be used in conjunction with Firebase hosting and Firebase functions, example below.
 
 ## Ideology
 Google by itself is capable of executing javascript on the page for Content-Based SEO purposes, but a static SPA will still fail to render in social media link previews.
@@ -16,7 +16,7 @@ Just render the meta tags on the serverside, leave the rest to the browser.
 
 `npm install --save meta-seo-helper`
 
-## Usage
+## Basic Usage
 
 ```
 const Template = require('meta-seo-helper').Template;
