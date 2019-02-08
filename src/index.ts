@@ -122,6 +122,7 @@ export class Template {
    * @param tag string to append to the html head
    */
   public withCustomTag(tag: string): Template {
+    // TODO: Validate Tag with regex
     this.metaReplaceWith += `${tag}\n`;
     return this;
   }
@@ -153,7 +154,7 @@ export class Template {
     if (!this.template) {
       throw new Error("call constructor first with index.html file path.");
     }
-    return this.template.replace(this.replaceAt, this.metaReplaceWith);
+    return this.template.replace(this.replaceAt, (this.metaReplaceWith + this.replaceAt));
   }
 
   /**
