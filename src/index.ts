@@ -13,21 +13,38 @@ export interface IMetaTag {
 
 /**
  * Template class that holds the html index file.
- * use {@link Template.constructor} to instantiate with a html file.
+ * use Template.fromFile() or Template.fromString() to instantiate the class.
  */
 export class Template {
-
-  private htmlString: string;
-  private template: string;
-  private replaceAt = "</head>";
 
   /**
    * Load the index.html file
    * @param path absolute path of the index.html file
    */
-  constructor(path: string) {
-    this.template = readFileSync(path).toString();
-    this.htmlString = this.template;
+  public static fromFile(path: string): Template {
+    const contents = readFileSync(path).toString();
+    return new Template(contents);
+  }
+
+  /**
+   * Load the index.html string as a template
+   * @param template index.html template string
+   */
+  public static fromString(template: string): Template {
+    return new Template(template);
+  }
+
+  private template: string;
+  private replaceAt = "</head>";
+  private metaReplaceWith: string;
+
+  /**
+   * private constructor
+   * @param template template html string
+   */
+  private constructor(template: string) {
+    this.template = template;
+    this.metaReplaceWith = "";
   }
 
   /**
@@ -35,6 +52,7 @@ export class Template {
    * @param tag Tag to add
    */
   public withNameMetaTag(tag: IMetaTag): Template {
+    this.metaReplaceWith += `<meta name="${this.clean(tag.key)}" content="${this.clean(tag.content)}">\n`;
     return this;
   }
 
@@ -43,6 +61,9 @@ export class Template {
    * @param tags name tags to add
    */
   public withNameMetaTags(tags: IMetaTag[]): Template {
+    tags.forEach((tag) => {
+      this.metaReplaceWith += `<meta name="${this.clean(tag.key)}" content="${this.clean(tag.content)}">\n`;
+    });
     return this;
   }
 
@@ -51,6 +72,7 @@ export class Template {
    * @param tags property tag to add
    */
   public withPropertyMetaTag(tag: IMetaTag): Template {
+    this.metaReplaceWith += `<meta property="${this.clean(tag.key)}" content="${this.clean(tag.content)}">\n`;
     return this;
   }
 
@@ -59,6 +81,9 @@ export class Template {
    * @param tags property tags to add
    */
   public withPropertyMetaTags(tags: IMetaTag[]): Template {
+    tags.forEach((tag) => {
+      this.metaReplaceWith += `<meta property="${this.clean(tag.key)}" content="${this.clean(tag.content)}">\n`;
+    });
     return this;
   }
 
@@ -68,6 +93,8 @@ export class Template {
    * @param description description of the page
    */
   public withDescriptionTag(description: string): Template {
+    // tslint:disable-next-line:max-line-length
+    this.metaReplaceWith += `<meta name="Description" content="${this.clean(description).substring(0, Math.min(155, description.length))}">\n`;
     return this;
   }
 
@@ -77,6 +104,7 @@ export class Template {
    * @param keywords keywords to add to the page
    */
   public withKeywordsTag(keywords: string[]): Template {
+    this.metaReplaceWith += `<meta name="keywords" content="${keywords.join(",")}">\n`;
     return this;
   }
 
@@ -85,6 +113,7 @@ export class Template {
    * <meta name="viewport" content="width=device-width, initial-scale=1.0">
    */
   public withViewPortTag(): Template {
+    this.metaReplaceWith += `<meta name="viewport" content="width=device-width, initial-scale=1.0">\n`;
     return this;
   }
 
@@ -93,6 +122,7 @@ export class Template {
    * @param tag string to append to the html head
    */
   public withCustomTag(tag: string): Template {
+    this.metaReplaceWith += `${tag}\n`;
     return this;
   }
 
@@ -109,7 +139,10 @@ export class Template {
    * Start the render process
    */
   public render(): Template {
-    this.htmlString = this.template;
+    if (!this.template) {
+      throw new Error("call constructor first with index.html file path.");
+    }
+    this.metaReplaceWith = "";
     return this;
   }
 
@@ -117,6 +150,17 @@ export class Template {
    * Return the rendered html string
    */
   public toHtml(): string {
-    return this.htmlString;
+    if (!this.template) {
+      throw new Error("call constructor first with index.html file path.");
+    }
+    return this.template.replace(this.replaceAt, this.metaReplaceWith);
+  }
+
+  /**
+   * remove " and \n characters from the string
+   * @param s string to clean
+   */
+  private clean(s: string) {
+    return s.replace(/["\n]/g, "");
   }
 }
