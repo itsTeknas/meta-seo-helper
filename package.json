@@ -17,8 +17,17 @@
     "hosting",
     "helper"
   ],
-  "author": "Sanket Berde",
+  "author": {
+    "name": "Sanket Berde",
+    "email" : "sanket@blackcurrantapps.com",
+    "url": "https://blackcurrantapps.com"
+  },
   "license": "Apache-2.0",
+  "homepage": "https://github.com/itsTeknas/meta-seo-helper/blob/master/README.md",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/itsTeknas/meta-seo-helper.git"
+  },
   "devDependencies": {
     "@types/node": "^10.12.21",
     "tslint": "^5.12.1",
