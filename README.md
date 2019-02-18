@@ -4,11 +4,10 @@ Adds meta tags for social media previews to the html page.
 To be used in conjunction with Firebase hosting and Firebase functions, example below.
 
 ## Previews
-Facebook:
-![Facebook][images/facebook.png]
 
-Twitter:
-![Twitter][images/twitter.png]
+| Facebook | Twitter |
+|:-:|:-:|
+| ![Facebook](./images/facebook.png) | ![Twitter](./images/twitter.png) |
 
 ## Ideology
 Google by itself is capable of executing javascript on the page for Content-Based SEO purposes, but a static SPA will still fail to render in social media link previews.
