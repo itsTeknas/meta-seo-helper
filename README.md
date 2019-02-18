@@ -3,6 +3,13 @@ Very Lightweight, Meta Tags helper for SEO of SPA's.
 Adds meta tags for social media previews to the html page.
 To be used in conjunction with Firebase hosting and Firebase functions, example below.
 
+## Previews
+Facebook:
+![Facebook][images/facebook.png]
+
+Twitter:
+![Twitter][images/twitter.png]
+
 ## Ideology
 Google by itself is capable of executing javascript on the page for Content-Based SEO purposes, but a static SPA will still fail to render in social media link previews.
 
@@ -60,5 +67,53 @@ This will add the following tags to your html:
 <meta name="keywords" content="star,wars">
 <isAwesome/>
 ```
+
+## Usage with firebase hosting
+
+In `firebase.json`, add the following redirect to function when a route is called
+``` json
+{
+  "hosting": {
+    ...
+    "rewrites": [
+      {
+        "source": "/event/**",
+        "function": "render"
+      },
+      ...
+    ],
+  },
+  "functions": {
+    "predeploy": [
+      "ng build --prod",
+      "cp dist/index.html functions/index.html"
+    ]
+  }
+}
+```
+
+In firebase function `index.js`,
+
+``` javascript
+const functions = require('firebase-functions');
+var express = require('express');
+const app = express();
+
+app.get('/event/:eventid', (req, res, next) => {
+
+  // Get item specific content
+
+  }).then(html => {
+    res.set('Cache-Control', 'public, max-age=600, s-maxage=1200');
+    res.send(html);
+    return;
+  }).catch(err => {
+    res.send(err);
+  })
+});
+
+exports.render = functions.https.onRequest(app);
+```
+
 
 
