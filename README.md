@@ -71,7 +71,7 @@ This will add the following tags to your html:
 ## Usage with firebase hosting
 
 In `firebase.json`, add the following redirect to function when a route is called
-``` json
+```json
 {
   "hosting": {
     ...
@@ -94,14 +94,46 @@ In `firebase.json`, add the following redirect to function when a route is calle
 
 In firebase function `index.js`,
 
-``` javascript
+```javascript
 const functions = require('firebase-functions');
 var express = require('express');
 const app = express();
+const Template = require('meta-seo-helper').Template;
+const indexTemplate = Template.fromFile(path.join(__dirname, 'index.html'));
 
 app.get('/event/:eventid', (req, res, next) => {
 
-  // Get item specific content
+  return new Promise((resolve, reject) => {
+    // Get item specific information 
+
+    return indexTemplate
+      .render()
+      .withDescriptionTag("Description")
+      .withPropertyMetaTags([{
+          key: 'og:title',
+          content: event.name.substring(0, Math.min(35, event.name.length))
+        },
+        {
+          key: 'og:type',
+          content: "website"
+        },
+        ....
+      ])
+      .withNameMetaTags([{
+          key: 'twitter:card',
+          content: 'summary_large_image'
+        },
+        {
+          key: 'twitter:site',
+          content: '@blackcurrantapp',
+        },
+        {
+          key: 'twitter:creator',
+          content: '@it_teknas'
+        }
+      ])
+      .withCustomTag(`<meta name="robots" content="index,nofollow">\n`)
+      .toHtml();
 
   }).then(html => {
     res.set('Cache-Control', 'public, max-age=600, s-maxage=1200');
